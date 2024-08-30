@@ -3,7 +3,7 @@ package ureca.shoppingmall.admin.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ureca.shoppingmall.admin.dto.ItemDto;
-import ureca.shoppingmall.admin.repository.ItemRepository;
+import ureca.shoppingmall.admin.repository.AdminItemRepository;
 import ureca.shoppingmall.admin.service.ItemService;
 import ureca.shoppingmall.domain.Item.Item;
 
@@ -13,9 +13,9 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ItemServiceImpl implements ItemService {
+public class AdminItemServiceImpl implements ItemService {
 
-    private final ItemRepository itemRepository;
+    private final AdminItemRepository itemRepository;
 
     @Override
     public List<ItemDto> itemList() {

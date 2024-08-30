@@ -13,7 +13,7 @@ import java.util.List;
 @ResponseBody
 @RequiredArgsConstructor
 @RequestMapping("/item")
-public class ItemController {
+public class AdminItemController {
 
     private final ItemService itemService;
 
