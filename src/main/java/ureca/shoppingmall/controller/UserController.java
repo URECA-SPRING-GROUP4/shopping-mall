@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ureca.shoppingmall.domain.user.Address;
 import ureca.shoppingmall.domain.user.Phone;
 import ureca.shoppingmall.domain.user.User;
+import ureca.shoppingmall.dto.AddressDto;
 import ureca.shoppingmall.dto.UserDto;
 import ureca.shoppingmall.dto.UserResultDto;
 import ureca.shoppingmall.service.UserService;
@@ -49,19 +50,38 @@ public class UserController {
         return userService.detailUser(id);
     }
 
-    @PostMapping("/update")
+    // 유저 업데이트
+    @PostMapping("/updateUser")
     public UserResultDto updateUser(UserDto userDto, HttpSession session) {
         Long id = ((UserDto) session.getAttribute("userDto")).getId();
         userDto.setId(id);
         return userService.updateUser(userDto);
     }
 
+    // 주소 업데이트
+    @PostMapping("/updateAddress")
+    public UserResultDto updateAddress(Address address, HttpSession session) {
+        Long id = ((UserDto) session.getAttribute("userDto")).getId();
+        address.setId(id);
+        return userService.updateAddress(address);
+    }
+
+    // 폰 업데이트
+    @PostMapping("/updatePhone")
+    public UserResultDto updatePhone(Phone phone, HttpSession session) {
+        Long id = ((UserDto) session.getAttribute("userDto")).getId();
+        phone.setId(id);
+        return userService.updatePhone(phone);
+    }
+
+    // 주소 추가
     @PostMapping("/addAddress")
     public UserResultDto insertUserAddress(Address address, HttpSession session) {
         Long id = ((UserDto) session.getAttribute("userDto")).getId();
         return userService.insertAddress(address, id);
     }
 
+    // 폰 추가
     @PostMapping("/addPhone")
     public UserResultDto insertPhone(Phone phone, HttpSession session) {
         Long id = ((UserDto) session.getAttribute("userDto")).getId();

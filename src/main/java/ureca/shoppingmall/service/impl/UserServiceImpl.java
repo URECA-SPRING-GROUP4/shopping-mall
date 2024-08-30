@@ -212,14 +212,4 @@ public class UserServiceImpl implements UserService {
         return userResultDto;
     }
 
-    @Override
-    @Transactional
-    public UserResultDto deleteUser(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("no such user"));
-        userRepository.delete(user);
-        UserResultDto userResultDto = new UserResultDto();
-        userResultDto.setResult("true");
-        return userResultDto;
-    }
 }
