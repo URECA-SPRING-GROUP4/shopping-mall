@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface OrderService{
 
     // 주문 생성
-    OrderDto createOrder(User user, List<Long> itemIds, List<Integer> quantities);
+    OrderDto createOrder(Long userId, Long itemId, int count);
 
     // 주문 조회
     Optional<OrderDto> findOrderById(long orderId);

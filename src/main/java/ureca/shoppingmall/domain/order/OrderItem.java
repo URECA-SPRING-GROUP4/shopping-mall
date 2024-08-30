@@ -28,4 +28,12 @@ public class OrderItem {
     private Item item;
 
     private int quantity; // quantity 필드 추가
+
+    public static OrderItem createOrderItem(Item item, int count) {
+        OrderItem orderItem = new OrderItem();
+        orderItem.setItem(item);
+        orderItem.setQuantity(count);
+        item.removeStock(count);
+        return orderItem;
+    }
 }
