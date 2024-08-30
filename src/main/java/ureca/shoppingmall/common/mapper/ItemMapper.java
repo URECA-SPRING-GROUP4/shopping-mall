@@ -12,7 +12,7 @@ public class ItemMapper {
         dto.setName(item.getName());
         dto.setPrice(item.getPrice());
         dto.setDescription(item.getDescription());
-        dto.setStockQuantity(String.valueOf(item.getStockQuantity()));
+        dto.setStockQuantity(item.getStockQuantity());
         return dto;
     }
 }

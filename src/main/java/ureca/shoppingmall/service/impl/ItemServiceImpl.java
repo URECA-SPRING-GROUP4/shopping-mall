@@ -33,10 +33,11 @@ public class ItemServiceImpl implements ItemService {
         return item.map(ItemMapper::toDto);
     }
 
-//    @Override
-//    public void saveItem(ItemDto itemDto) {
-//
-//    }
+    @Override
+    public void saveItem(ItemDto itemDto) {
+        Item item = new Item(itemDto.getName(), itemDto.getPrice(), itemDto.getDescription(), itemDto.getStockQuantity());
+        itemRepository.save(item);
+    }
 
     @Override
     public List<ItemDto> findItemWithLowStock(int quantity) {

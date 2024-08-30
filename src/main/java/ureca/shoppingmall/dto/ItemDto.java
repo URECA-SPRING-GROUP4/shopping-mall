@@ -2,6 +2,7 @@ package ureca.shoppingmall.dto;
 
 
 import lombok.Data;
+import ureca.shoppingmall.domain.Item.Item;
 
 @Data
 public class ItemDto {
@@ -9,5 +10,5 @@ public class ItemDto {
     private String name;
     private int price;
     private String description;
-    private String stockQuantity;
+    private int stockQuantity;
 }
