@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .signup-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 360px; /* Same as login page */
+            box-sizing: border-box;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745; /* Same as login button */
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+<div class="signup-container">
+    <h2>회원가입</h2>
+    <form id="signupForm">
+        <input type="email" id="email" name="email" placeholder="이메일" required>
+        <input type="text" id="name" name="name" placeholder="이름" required>
+        <input type="password" id="password" name="password" placeholder="비밀번호" required>
+        <input type="submit" id="btnRegister" value="회원가입">
+    </form>
+</div>
+<script>
+    window.onload = function(){
+        document.querySelector("#signupForm").onsubmit = register;
+    }
+
+    async function register(event){
+        // 기본 폼 제출 막기
+        event.preventDefault();
+
+        let name = document.querySelector("#name").value;
+        let email = document.querySelector("#email").value;
+        let password = document.querySelector("#password").value;
+
+        let urlParams = new URLSearchParams({
+            name: name,
+            email: email,
+            password: password
+        });
+
+        let url = "/users/register";
+
+        let fetchOptions = {
+            method: "POST",
+            body: urlParams
+        }
+
+        let response = await fetch(url, fetchOptions);
+        let data = await response.json();
+
+        if(data.result === "success"){
+            alert("회원가입 되었습니다.");
+            window.location.href = "/login.html";  // 로그인 페이지로 이동
+        }else if(data.result === "fail"){
+            alert("회원가입 과정에서 오류가 발생했습니다.");
+        }
+    }
+</script>
+</body>
+</html>
