@@ -26,4 +26,6 @@ public class OrderItem {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private Item item;
+
+    private int quantity; // quantity 필드 추가
 }
