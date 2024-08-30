@@ -34,33 +34,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderDto createOrder(User user, List<Long> itemIds, List<Integer> quantities) {
-        Order order = new Order();
-        order.setUser(user);
-        order.setOrderDate(LocalDateTime.now());
-        order.setStatus(OrderStatus.PLACED);
-
-        List<OrderItem> orderItems = new ArrayList<>();
-        for (int i = 0; i < itemIds.size(); i++) {
-            Item item = itemRepository.findById(itemIds.get(i))
-                    .orElseThrow(() -> new RuntimeException("Item not found"));
-
-            if (item.getStockQuantity() < quantities.get(i)) {
-                throw new RuntimeException("Not enough stock");
-            }
-
-            OrderItem orderItem = new OrderItem();
-            orderItem.setOrder(order);
-            orderItem.setItem(item);
-            orderItem.setQuantity(quantities.get(i));
-            orderItems.add(orderItem);
-
-            item.setStockQuantity(item.getStockQuantity() - quantities.get(i));
-        }
-
-        order.setOrderItems(orderItems);
-        Order savedOrder = orderRepository.save(order);
-
-        return createOrderDto(savedOrder);
+        return null;
     }
 
     @Override
