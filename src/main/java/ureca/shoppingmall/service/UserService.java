@@ -10,7 +10,11 @@ public interface UserService {
     UserResultDto login(String email, String password);
     UserResultDto insertUser(User user);
     UserResultDto detailUser(Long id);
+
     UserResultDto updateUser(UserDto userDto);
+    UserResultDto updateAddress(Address userAddress);
+    UserResultDto updatePhone(Phone userPhone);
+
     UserResultDto insertAddress(Address userAddress, Long id);
     UserResultDto insertPhone(Phone userPhone, Long id);
 

@@ -214,6 +214,56 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    public UserResultDto updateAddress(Address userAddress) {
+        UserResultDto userResultDto = new UserResultDto();
+
+        try {
+            Optional<Address> addressOptional = addressRepository.findById(userAddress.getId());
+            if (addressOptional.isPresent()) {
+                Address address = addressOptional.get();
+
+                address.setCity(userAddress.getCity());
+                address.setStreet(userAddress.getStreet());
+                address.setZipcode(userAddress.getZipcode());
+
+                addressRepository.save(address);
+                userResultDto.setResult("success");
+            } else {
+                userResultDto.setResult("fail");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            userResultDto.setResult("fail");
+        }
+
+        return userResultDto;
+    }
+
+    @Override
+    @Transactional
+    public UserResultDto updatePhone(Phone userPhone) {
+        UserResultDto userResultDto = new UserResultDto();
+        try {
+            Optional<Phone> phoneOptional = phoneRepository.findById(userPhone.getId());
+            if (phoneOptional.isPresent()) {
+                Phone phone = phoneOptional.get();
+
+                phone.setPhoneNumber(userPhone.getPhoneNumber());
+
+                userResultDto.setResult("success");
+            } else {
+                userResultDto.setResult("fail");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            userResultDto.setResult("fail");
+        }
+
+        return userResultDto;
+    }
+
+    @Override
+    @Transactional
     public UserResultDto deleteUser(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("no such user"));
