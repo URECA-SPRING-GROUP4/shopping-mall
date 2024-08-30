@@ -1,4 +1,4 @@
-package ureca.shoppingmall.entity;
+package ureca.shoppingmall.domain.order;
 
 import jakarta.persistence.*;
 
@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ureca.shoppingmall.domain.Item.Item;
 
 @Entity
 @Getter

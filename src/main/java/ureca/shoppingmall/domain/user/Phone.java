@@ -1,7 +1,6 @@
-package ureca.shoppingmall.entity;
+package ureca.shoppingmall.domain.user;
 
 import jakarta.persistence.*;
-
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,18 +9,17 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User {
+public class Phone {
 
     @Id
-    @Column(name = "user_id")
+    @Column(name = "phone_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String phoneNumber;
 
-    private String password;
-
-    private String email;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 }

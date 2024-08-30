@@ -1,4 +1,4 @@
-package ureca.shoppingmall.entity;
+package ureca.shoppingmall.domain.Item;
 
 import jakarta.persistence.*;
 

@@ -1,4 +1,4 @@
-package ureca.shoppingmall.entity;
+package ureca.shoppingmall.common.enums;
 
 public enum OrderStatus {
     ORDER, CANCEL

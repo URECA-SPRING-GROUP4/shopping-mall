@@ -1,4 +1,4 @@
-package ureca.shoppingmall.entity;
+package ureca.shoppingmall.domain.user;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

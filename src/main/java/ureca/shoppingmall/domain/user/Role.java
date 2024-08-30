@@ -1,23 +1,25 @@
-package ureca.shoppingmall.entity;
+package ureca.shoppingmall.domain.user;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ureca.shoppingmall.common.enums.RoleStatus;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Phone {
+public class Role {
 
     @Id
-    @Column(name = "phone_id")
+    @Column(name = "role_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String phoneNumber;
+    @Enumerated(EnumType.STRING)
+    private RoleStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

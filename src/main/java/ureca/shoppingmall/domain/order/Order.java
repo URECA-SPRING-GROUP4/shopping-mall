@@ -1,10 +1,12 @@
-package ureca.shoppingmall.entity;
+package ureca.shoppingmall.domain.order;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ureca.shoppingmall.domain.user.User;
+import ureca.shoppingmall.common.enums.OrderStatus;
 
 import java.time.LocalDateTime;
 
