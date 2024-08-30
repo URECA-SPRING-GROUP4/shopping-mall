@@ -1,20 +1,17 @@
-package ureca.shoppingmall.service;
+package ureca.shoppingmall.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ureca.shoppingmall.common.enums.RoleStatus;
-import ureca.shoppingmall.domain.user.Address;
 import ureca.shoppingmall.domain.user.Role;
 import ureca.shoppingmall.domain.user.User;
 import ureca.shoppingmall.dto.UserDto;
 import ureca.shoppingmall.dto.UserResultDto;
-import ureca.shoppingmall.repository.AddressRepository;
+//import ureca.shoppingmall.repository.AddressRepository;
 import ureca.shoppingmall.repository.RoleRepository;
 import ureca.shoppingmall.repository.UserRepository;
+import ureca.shoppingmall.service.UserService;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -23,7 +20,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final AddressRepository addressRepository;
+//    private final AddressRepository addressRepository;
 
     @Override
     public UserResultDto login(String email, String password) {
