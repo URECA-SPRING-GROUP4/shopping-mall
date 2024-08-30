@@ -16,4 +16,6 @@ public interface UserService {
 
     UserResultDto deleteAddress(Long id);
     UserResultDto deletePhone(Long id);
+
+    UserResultDto deleteUser(Long userId);
 }
