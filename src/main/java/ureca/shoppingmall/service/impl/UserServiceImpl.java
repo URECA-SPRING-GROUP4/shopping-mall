@@ -49,14 +49,22 @@ public class UserServiceImpl implements UserService {
             Map<Long, String> userRoles = userDto.getRoles();
             roles.forEach(role -> userRoles.put(role.getId(), role.getStatus().name()));
 
+            String userRole = "USER"; // 기본값 설정
+
+            if (!roles.isEmpty()) {
+                userRole = roles.iterator().next().getStatus().name();
+            }
+
             userResultDto.setUserDto(userDto);
             userResultDto.setResult("success");
+            userResultDto.setRole(userRole);
         } else {
             userResultDto.setResult("fail");
         }
 
         return userResultDto;
     }
+
 
     @Override
     public UserResultDto insertUser(User user) {
@@ -77,22 +85,17 @@ public class UserServiceImpl implements UserService {
     public UserResultDto detailUser(Long id) {
         UserResultDto userResultDto = new UserResultDto();
 
-        // 사용자 정보를 가져옴
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
 
-            // 회원 정보
             UserDto userDto = new UserDto();
             userDto.setId(user.getId());
             userDto.setName(user.getName());
             userDto.setEmail(user.getEmail());
-            userDto.setPassword(user.getPassword());
 
-            // 주소
             List<Address> addressList = addressRepository.findByUserId(id);
-            List<AddressDto> addresses = userDto.getAddresses(); // userDto에서 리스트를 가져옴
-
+            List<AddressDto> addresses = userDto.getAddresses();
             addressList.forEach(userAddress -> {
                 AddressDto userAddressDto = new AddressDto();
                 userAddressDto.setId(userAddress.getId());
@@ -103,10 +106,8 @@ public class UserServiceImpl implements UserService {
                 addresses.add(userAddressDto);
             });
 
-            // 휴대폰 번호
             List<Phone> phonesList = phoneRepository.findByUserId(id);
             List<PhoneDto> phones = userDto.getPhones();
-
             phonesList.forEach(userPhones -> {
                 PhoneDto phoneDto = new PhoneDto();
                 phoneDto.setId(userPhones.getId());
@@ -125,62 +126,74 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResultDto insertAddress(Address address, Long id) {
-        UserResultDto userResultDto = new UserResultDto();
-
-        address.setId(id);
-        addressRepository.save(address);
-        userResultDto.setResult("success");
-        return userResultDto;
-    }
-
-    @Override
-    public UserResultDto insertPhone(Phone userPhone, Long id) {
-        UserResultDto userResultDto = new UserResultDto();
-
-        userPhone.setId(id);
-        phoneRepository.save(userPhone);
-        userResultDto.setResult("success");
-        return userResultDto;
-    }
-
-    @Override
-    public UserResultDto deleteAddress(Long id) {
+    public UserResultDto insertAddress(Address address, Long userId) {
         UserResultDto userResultDto = new UserResultDto();
 
         try {
-            // ID로 주소를 찾고 삭제
-            Optional<Address> addressOptional = addressRepository.findById(id);
-            if (addressOptional.isPresent()) {
-                addressRepository.deleteById(id);
-                userResultDto.setResult("success");
-            } else {
-                userResultDto.setResult("fail"); // 주소가 존재하지 않으면 실패 처리
-            }
+            User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+            address.setUser(user);  // 사용자와 연결
+            addressRepository.save(address);
+            userResultDto.setResult("success");
         } catch (Exception e) {
             e.printStackTrace();
-            userResultDto.setResult("fail"); // 예외 발생 시 실패 처리
+            userResultDto.setResult("fail");
         }
 
         return userResultDto;
     }
 
     @Override
-    public UserResultDto deletePhone(Long id) {
+    public UserResultDto insertPhone(Phone phone, Long userId) {
         UserResultDto userResultDto = new UserResultDto();
 
         try {
-            // ID로 휴대폰 번호를 찾고 삭제
-            Optional<Phone> phoneOptional = phoneRepository.findById(id);
-            if (phoneOptional.isPresent()) {
-                phoneRepository.deleteById(id);
+            User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+            phone.setUser(user);  // 사용자와 연결
+            phoneRepository.save(phone);
+            userResultDto.setResult("success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            userResultDto.setResult("fail");
+        }
+
+        return userResultDto;
+    }
+
+    @Override
+    public UserResultDto deleteAddress(Long addressId) {
+        UserResultDto userResultDto = new UserResultDto();
+
+        try {
+            Optional<Address> addressOptional = addressRepository.findById(addressId);
+            if (addressOptional.isPresent()) {
+                addressRepository.deleteById(addressId);
                 userResultDto.setResult("success");
             } else {
-                userResultDto.setResult("fail"); // 휴대폰 번호가 존재하지 않으면 실패 처리
+                userResultDto.setResult("fail");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            userResultDto.setResult("fail"); // 예외 발생 시 실패 처리
+            userResultDto.setResult("fail");
+        }
+
+        return userResultDto;
+    }
+
+    @Override
+    public UserResultDto deletePhone(Long phoneId) {
+        UserResultDto userResultDto = new UserResultDto();
+
+        try {
+            Optional<Phone> phoneOptional = phoneRepository.findById(phoneId);
+            if (phoneOptional.isPresent()) {
+                phoneRepository.deleteById(phoneId);
+                userResultDto.setResult("success");
+            } else {
+                userResultDto.setResult("fail");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            userResultDto.setResult("fail");
         }
 
         return userResultDto;
@@ -192,7 +205,6 @@ public class UserServiceImpl implements UserService {
         UserResultDto userResultDto = new UserResultDto();
 
         try {
-            // Fetch existing user
             Optional<User> optionalUser = userRepository.findById(userDto.getId());
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
@@ -250,6 +262,7 @@ public class UserServiceImpl implements UserService {
 
                 phone.setPhoneNumber(userPhone.getPhoneNumber());
 
+                phoneRepository.save(phone);
                 userResultDto.setResult("success");
             } else {
                 userResultDto.setResult("fail");
@@ -269,7 +282,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new RuntimeException("no such user"));
         userRepository.delete(user);
         UserResultDto userResultDto = new UserResultDto();
-        userResultDto.setResult("true");
+        userResultDto.setResult("success");
         return userResultDto;
     }
 }

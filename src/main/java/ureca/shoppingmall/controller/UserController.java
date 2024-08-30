@@ -40,6 +40,7 @@ public class UserController {
     // 회원가입
     @PostMapping("/register")
     public UserResultDto insertUser(User user) {
+
         return userService.insertUser(user);
     }
 
