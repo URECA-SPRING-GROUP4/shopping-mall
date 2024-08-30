@@ -81,4 +81,11 @@ public class UserController {
         Long id = ((UserDto) session.getAttribute("userDto")).getId();
         return userService.deletePhone(phoneId);
     }
+
+    // 유저 삭제
+    @DeleteMapping("/{userId}")
+    public UserResultDto deleteUser(@PathVariable Long userId, HttpSession session) {
+        Long id = ((UserDto) session.getAttribute("userDto")).getId();
+        return userService.deleteUser(userId);
+    }
 }
