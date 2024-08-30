@@ -2,6 +2,7 @@ package ureca.shoppingmall.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ureca.shoppingmall.common.mapper.ItemMapper;
 import ureca.shoppingmall.domain.Item.Item;
 import ureca.shoppingmall.dto.ItemDto;
 import ureca.shoppingmall.repository.ItemRepository;
@@ -28,18 +29,14 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Optional<ItemDto> findOne(Long itemId) {
         Optional<Item> item = itemRepository.findById(itemId);
-        if (item.isPresent()) {
-            return Optional.of(convertToDto(item.orElse(null)));
-        } else {
-            return Optional.empty();
-        }
+        // ItemMapper를 사용하여 엔티티를 DTO로 변환
+        return item.map(ItemMapper::toDto);
     }
 
-    @Override
-    public void saveItem(ItemDto itemDto) {
-        Item item = convertToEntity(itemDto);
-        itemRepository.save(item);
-    }
+//    @Override
+//    public void saveItem(ItemDto itemDto) {
+//
+//    }
 
     @Override
     public List<ItemDto> findItemWithLowStock(int quantity) {
@@ -47,7 +44,8 @@ public class ItemServiceImpl implements ItemService {
         List<ItemDto> lowStockItems = new ArrayList<>();
         for (Item item : allItems) {
             if (item.getStockQuantity() < quantity) {
-                lowStockItems.add(convertToDto(item));
+                // ItemMapper를 사용하여 엔티티를 DTO로 변환
+                lowStockItems.add(ItemMapper.toDto(item));
             }
         }
         return lowStockItems;
@@ -59,29 +57,10 @@ public class ItemServiceImpl implements ItemService {
         List<ItemDto> itemsInPriceRange = new ArrayList<>();
         for (Item item : allItems) {
             if (item.getPrice() >= minPrice && item.getPrice() <= maxPrice) {
-                itemsInPriceRange.add(convertToDto(item));
+                // ItemMapper를 사용하여 엔티티를 DTO로 변환
+                itemsInPriceRange.add(ItemMapper.toDto(item));
             }
         }
         return itemsInPriceRange;
-    }
-
-    private ItemDto convertToDto(Item item) {
-        ItemDto dto = new ItemDto();
-        dto.setId(item.getId());
-        dto.setName(item.getName());
-        dto.setPrice(item.getPrice());
-        dto.setDescription(item.getDescription());
-        dto.setStockQuantity(String.valueOf(item.getStockQuantity()));
-        return dto;
-    }
-
-    private Item convertToEntity(ItemDto dto) {
-        Item item = new Item();
-        item.setId(dto.getId());
-        item.setName(dto.getName());
-        item.setPrice(dto.getPrice());
-        item.setDescription(dto.getDescription());
-        item.setStockQuantity(Integer.parseInt(dto.getStockQuantity()));
-        return item;
     }
 }
