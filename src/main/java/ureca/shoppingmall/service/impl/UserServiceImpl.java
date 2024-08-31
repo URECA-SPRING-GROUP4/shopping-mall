@@ -3,6 +3,7 @@ package ureca.shoppingmall.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ureca.shoppingmall.common.enums.RoleStatus;
 import ureca.shoppingmall.domain.user.Address;
 import ureca.shoppingmall.domain.user.Phone;
 import ureca.shoppingmall.domain.user.Role;
@@ -18,10 +19,8 @@ import ureca.shoppingmall.repository.RoleRepository;
 import ureca.shoppingmall.repository.UserRepository;
 import ureca.shoppingmall.service.UserService;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -67,13 +66,24 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public UserResultDto insertUser(User user) {
+    @Transactional
+    public UserResultDto insertUser(User user, Address address, Phone phone) {
         UserResultDto userResultDto = new UserResultDto();
 
         try {
-            userRepository.save(user);
+            User savedUser = userRepository.save(user);
+
+            address.setUser(savedUser);
+            phone.setUser(savedUser);
+
+            addressRepository.save(address);
+            phoneRepository.save(phone);
+
+            Role userRole = new Role(savedUser, RoleStatus.USER);
+            roleRepository.save(userRole);
+
             userResultDto.setResult("success");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             userResultDto.setResult("fail");
         }
@@ -85,7 +95,7 @@ public class UserServiceImpl implements UserService {
     public UserResultDto detailUser(Long id) {
         UserResultDto userResultDto = new UserResultDto();
 
-        Optional<User> optionalUser = userRepository.findById(id);
+        Optional<User> optionalUser = userRepository.findByIdWithAddressesAndPhones(id);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
 
@@ -94,9 +104,8 @@ public class UserServiceImpl implements UserService {
             userDto.setName(user.getName());
             userDto.setEmail(user.getEmail());
 
-            List<Address> addressList = addressRepository.findByUserId(id);
             List<AddressDto> addresses = userDto.getAddresses();
-            addressList.forEach(userAddress -> {
+            user.getAddresses().forEach(userAddress -> {
                 AddressDto userAddressDto = new AddressDto();
                 userAddressDto.setId(userAddress.getId());
                 userAddressDto.setCity(userAddress.getCity());
@@ -106,9 +115,8 @@ public class UserServiceImpl implements UserService {
                 addresses.add(userAddressDto);
             });
 
-            List<Phone> phonesList = phoneRepository.findByUserId(id);
             List<PhoneDto> phones = userDto.getPhones();
-            phonesList.forEach(userPhones -> {
+            user.getPhones().forEach(userPhones -> {
                 PhoneDto phoneDto = new PhoneDto();
                 phoneDto.setId(userPhones.getId());
                 phoneDto.setPhoneNumber(userPhones.getPhoneNumber());
@@ -124,6 +132,58 @@ public class UserServiceImpl implements UserService {
 
         return userResultDto;
     }
+
+    @Override
+    public UserResultDto listUser() {
+        UserResultDto userResultDto = new UserResultDto();
+
+        try {
+            // 모든 유저를 조회하면서, 주소와 전화번호를 함께 조회합니다.
+            List<User> users = userRepository.findAllWithAddressesAndPhones();
+            List<UserDto> userDtos = new ArrayList<>();
+
+            for (User user : users) {
+                UserDto userDto = new UserDto();
+                userDto.setId(user.getId());
+                userDto.setName(user.getName());
+                userDto.setEmail(user.getEmail());
+
+                // 해당 유저의 주소 정보를 설정합니다.
+                List<AddressDto> addresses = new ArrayList<>();
+                user.getAddresses().forEach(userAddress -> {
+                    AddressDto userAddressDto = new AddressDto();
+                    userAddressDto.setId(userAddress.getId());
+                    userAddressDto.setCity(userAddress.getCity());
+                    userAddressDto.setStreet(userAddress.getStreet());
+                    userAddressDto.setZipcode(userAddress.getZipcode());
+                    addresses.add(userAddressDto);
+                });
+                userDto.setAddresses(addresses);
+
+                // 해당 유저의 전화번호 정보를 설정합니다.
+                List<PhoneDto> phones = new ArrayList<>();
+                user.getPhones().forEach(userPhone -> {
+                    PhoneDto phoneDto = new PhoneDto();
+                    phoneDto.setId(userPhone.getId());
+                    phoneDto.setPhoneNumber(userPhone.getPhoneNumber());
+                    phones.add(phoneDto);
+                });
+                userDto.setPhones(phones);
+
+                userDtos.add(userDto);
+            }
+
+            userResultDto.setUserList(userDtos);
+            userResultDto.setResult("success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            userResultDto.setResult("fail");
+        }
+
+        return userResultDto;
+    }
+
+
 
     @Override
     public UserResultDto insertAddress(Address address, Long userId) {
@@ -145,7 +205,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResultDto insertPhone(Phone phone, Long userId) {
         UserResultDto userResultDto = new UserResultDto();
-
         try {
             User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
             phone.setUser(user);  // 사용자와 연결
@@ -164,13 +223,8 @@ public class UserServiceImpl implements UserService {
         UserResultDto userResultDto = new UserResultDto();
 
         try {
-            Optional<Address> addressOptional = addressRepository.findById(addressId);
-            if (addressOptional.isPresent()) {
-                addressRepository.deleteById(addressId);
-                userResultDto.setResult("success");
-            } else {
-                userResultDto.setResult("fail");
-            }
+            addressRepository.deleteById(addressId);
+            userResultDto.setResult("success");
         } catch (Exception e) {
             e.printStackTrace();
             userResultDto.setResult("fail");
@@ -184,13 +238,8 @@ public class UserServiceImpl implements UserService {
         UserResultDto userResultDto = new UserResultDto();
 
         try {
-            Optional<Phone> phoneOptional = phoneRepository.findById(phoneId);
-            if (phoneOptional.isPresent()) {
-                phoneRepository.deleteById(phoneId);
-                userResultDto.setResult("success");
-            } else {
-                userResultDto.setResult("fail");
-            }
+            phoneRepository.deleteById(phoneId);
+            userResultDto.setResult("success");
         } catch (Exception e) {
             e.printStackTrace();
             userResultDto.setResult("fail");
@@ -238,7 +287,6 @@ public class UserServiceImpl implements UserService {
                 address.setStreet(userAddress.getStreet());
                 address.setZipcode(userAddress.getZipcode());
 
-                addressRepository.save(address);
                 userResultDto.setResult("success");
             } else {
                 userResultDto.setResult("fail");
@@ -261,8 +309,6 @@ public class UserServiceImpl implements UserService {
                 Phone phone = phoneOptional.get();
 
                 phone.setPhoneNumber(userPhone.getPhoneNumber());
-
-                phoneRepository.save(phone);
                 userResultDto.setResult("success");
             } else {
                 userResultDto.setResult("fail");

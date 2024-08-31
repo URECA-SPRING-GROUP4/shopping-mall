@@ -8,8 +8,9 @@ import ureca.shoppingmall.dto.UserResultDto;
 
 public interface UserService {
     UserResultDto login(String email, String password);
-    UserResultDto insertUser(User user);
+    UserResultDto insertUser(User user, Address address ,Phone phone);
     UserResultDto detailUser(Long id);
+    UserResultDto listUser();
 
     UserResultDto updateUser(UserDto userDto);
     UserResultDto updateAddress(Address userAddress);

@@ -25,4 +25,10 @@ public class User {
     private String name;
     private String password;
     private String email;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<Address> addresses = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<Phone> phones = new HashSet<>();
 }

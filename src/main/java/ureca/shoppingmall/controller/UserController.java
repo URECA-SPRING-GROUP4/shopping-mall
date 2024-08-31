@@ -39,9 +39,9 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/register")
-    public UserResultDto insertUser(User user) {
+    public UserResultDto insertUser(User user, Address address ,Phone phone) {
 
-        return userService.insertUser(user);
+        return userService.insertUser(user, address, phone);
     }
 
     // 회원 정보 조회하기
@@ -49,6 +49,12 @@ public class UserController {
     public UserResultDto detailUser(HttpSession session) {
         Long id = ((UserDto) session.getAttribute("userDto")).getId();
         return userService.detailUser(id);
+    }
+
+    // 유저 리스트 조회하기
+    @GetMapping("/list")
+    public UserResultDto listUser() {
+        return userService.listUser();
     }
 
     // 유저 업데이트

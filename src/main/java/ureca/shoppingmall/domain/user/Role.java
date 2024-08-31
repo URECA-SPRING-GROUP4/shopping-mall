@@ -24,4 +24,9 @@ public class Role {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Role(User user, RoleStatus status) {
+        this.user = user;
+        this.status = status;
+    }
 }

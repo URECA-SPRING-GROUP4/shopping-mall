@@ -62,6 +62,9 @@
         <input type="email" id="email" name="email" placeholder="이메일" required>
         <input type="text" id="name" name="name" placeholder="이름" required>
         <input type="password" id="password" name="password" placeholder="비밀번호" required>
+        <input type="text" id="city" name="city" placeholder="도시" required>
+        <input type="text" id="street" name="street" placeholder="거리" required>
+        <input type="text" id="phoneNumber" name="phoneNumber" placeholder="전화번호" required>
         <input type="submit" id="btnRegister" value="회원가입">
     </form>
 </div>
@@ -77,11 +80,17 @@
         let name = document.querySelector("#name").value;
         let email = document.querySelector("#email").value;
         let password = document.querySelector("#password").value;
+        let city = document.querySelector("#city").value;
+        let street = document.querySelector("#street").value;
+        let phoneNumber = document.querySelector("#phoneNumber").value;
 
         let urlParams = new URLSearchParams({
             name: name,
             email: email,
-            password: password
+            password: password,
+            city: city,
+            street: street,
+            phoneNumber: phoneNumber,
         });
 
         let url = "/users/register";
@@ -96,7 +105,7 @@
 
         if(data.result === "success"){
             alert("회원가입 되었습니다.");
-            window.location.href = "/login.html";  // 로그인 페이지로 이동
+            window.location.href = "/index.html";  // 초기 페이지로 이동
         }else if(data.result === "fail"){
             alert("회원가입 과정에서 오류가 발생했습니다.");
         }
