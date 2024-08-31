@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import ureca.shoppingmall.domain.user.Address;
 import ureca.shoppingmall.domain.user.Phone;
 import ureca.shoppingmall.domain.user.User;
+import ureca.shoppingmall.domain.user.dto.AddressDto;
+import ureca.shoppingmall.domain.user.dto.PhoneDto;
 import ureca.shoppingmall.domain.user.dto.UserDto;
 import ureca.shoppingmall.domain.user.dto.UserResultDto;
 import ureca.shoppingmall.domain.user.service.UserService;
@@ -66,18 +68,18 @@ public class UserController {
 
     // 주소 업데이트
     @PostMapping("/updateAddress")
-    public UserResultDto updateAddress(Address address, HttpSession session) {
+    public UserResultDto updateAddress(AddressDto addressDto, HttpSession session) {
         Long id = ((UserDto) session.getAttribute("userDto")).getId();
-        address.setId(id);
-        return userService.updateAddress(address);
+        addressDto.setId(id);
+        return userService.updateAddress(addressDto);
     }
 
     // 폰 업데이트
     @PostMapping("/updatePhone")
-    public UserResultDto updatePhone(Phone phone, HttpSession session) {
+    public UserResultDto updatePhone(PhoneDto phoneDto, HttpSession session) {
         Long id = ((UserDto) session.getAttribute("userDto")).getId();
-        phone.setId(id);
-        return userService.updatePhone(phone);
+        phoneDto.setId(id);
+        return userService.updatePhone(phoneDto);
     }
 
     // 주소 추가

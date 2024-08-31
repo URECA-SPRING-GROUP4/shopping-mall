@@ -138,7 +138,6 @@ public class UserServiceImpl implements UserService {
         UserResultDto userResultDto = new UserResultDto();
 
         try {
-            // 모든 유저를 조회하면서, 주소와 전화번호를 함께 조회합니다.
             List<User> users = userRepository.findAllWithAddressesAndPhones();
             List<UserDto> userDtos = new ArrayList<>();
 
@@ -148,7 +147,6 @@ public class UserServiceImpl implements UserService {
                 userDto.setName(user.getName());
                 userDto.setEmail(user.getEmail());
 
-                // 해당 유저의 주소 정보를 설정합니다.
                 List<AddressDto> addresses = new ArrayList<>();
                 user.getAddresses().forEach(userAddress -> {
                     AddressDto userAddressDto = new AddressDto();
@@ -160,7 +158,6 @@ public class UserServiceImpl implements UserService {
                 });
                 userDto.setAddresses(addresses);
 
-                // 해당 유저의 전화번호 정보를 설정합니다.
                 List<PhoneDto> phones = new ArrayList<>();
                 user.getPhones().forEach(userPhone -> {
                     PhoneDto phoneDto = new PhoneDto();
@@ -191,7 +188,7 @@ public class UserServiceImpl implements UserService {
 
         try {
             User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-            address.setUser(user);  // 사용자와 연결
+            address.setUser(user);
             addressRepository.save(address);
             userResultDto.setResult("success");
         } catch (Exception e) {
@@ -207,7 +204,7 @@ public class UserServiceImpl implements UserService {
         UserResultDto userResultDto = new UserResultDto();
         try {
             User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-            phone.setUser(user);  // 사용자와 연결
+            phone.setUser(user);
             phoneRepository.save(phone);
             userResultDto.setResult("success");
         } catch (Exception e) {
@@ -258,9 +255,12 @@ public class UserServiceImpl implements UserService {
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
 
-                user.setName(userDto.getName());
-                user.setEmail(userDto.getEmail());
-
+                if(userDto.getName() != null){
+                    user.setName(userDto.getName());
+                }
+                if(userDto.getEmail() != null){
+                    user.setEmail(userDto.getEmail());
+                }
                 userResultDto.setResult("success");
             } else {
                 userResultDto.setResult("fail");
@@ -275,17 +275,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserResultDto updateAddress(Address userAddress) {
+    public UserResultDto updateAddress(AddressDto userAddressDto) {
         UserResultDto userResultDto = new UserResultDto();
 
         try {
-            Optional<Address> addressOptional = addressRepository.findById(userAddress.getId());
+            Optional<Address> addressOptional = addressRepository.findById(userAddressDto.getId());
             if (addressOptional.isPresent()) {
                 Address address = addressOptional.get();
 
-                address.setCity(userAddress.getCity());
-                address.setStreet(userAddress.getStreet());
-                address.setZipcode(userAddress.getZipcode());
+                if (userAddressDto.getCity() != null) {
+                    address.setCity(userAddressDto.getCity());
+                }
+                if (userAddressDto.getStreet() != null) {
+                    address.setStreet(userAddressDto.getStreet());
+                }
+                if (userAddressDto.getZipcode() != null) {
+                    address.setZipcode(userAddressDto.getZipcode());
+                }
+                addressRepository.save(address);
 
                 userResultDto.setResult("success");
             } else {
@@ -299,16 +306,17 @@ public class UserServiceImpl implements UserService {
         return userResultDto;
     }
 
+
     @Override
     @Transactional
-    public UserResultDto updatePhone(Phone userPhone) {
+    public UserResultDto updatePhone(PhoneDto phoneDto) {
         UserResultDto userResultDto = new UserResultDto();
         try {
-            Optional<Phone> phoneOptional = phoneRepository.findById(userPhone.getId());
+            Optional<Phone> phoneOptional = phoneRepository.findById(phoneDto.getId());
             if (phoneOptional.isPresent()) {
                 Phone phone = phoneOptional.get();
 
-                phone.setPhoneNumber(userPhone.getPhoneNumber());
+                phone.setPhoneNumber(phoneDto.getPhoneNumber());
                 userResultDto.setResult("success");
             } else {
                 userResultDto.setResult("fail");
