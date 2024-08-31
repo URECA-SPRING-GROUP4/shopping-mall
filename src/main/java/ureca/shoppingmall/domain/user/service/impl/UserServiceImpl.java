@@ -1,4 +1,4 @@
-package ureca.shoppingmall.service.impl;
+package ureca.shoppingmall.domain.user.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -8,16 +8,16 @@ import ureca.shoppingmall.domain.user.Address;
 import ureca.shoppingmall.domain.user.Phone;
 import ureca.shoppingmall.domain.user.Role;
 import ureca.shoppingmall.domain.user.User;
-import ureca.shoppingmall.dto.AddressDto;
-import ureca.shoppingmall.dto.PhoneDto;
-import ureca.shoppingmall.dto.UserDto;
-import ureca.shoppingmall.dto.UserResultDto;
+import ureca.shoppingmall.domain.user.dto.AddressDto;
+import ureca.shoppingmall.domain.user.dto.PhoneDto;
+import ureca.shoppingmall.domain.user.dto.UserDto;
+import ureca.shoppingmall.domain.user.dto.UserResultDto;
 //import ureca.shoppingmall.repository.AddressRepository;
-import ureca.shoppingmall.repository.AddressRepository;
-import ureca.shoppingmall.repository.PhoneRepository;
-import ureca.shoppingmall.repository.RoleRepository;
-import ureca.shoppingmall.repository.UserRepository;
-import ureca.shoppingmall.service.UserService;
+import ureca.shoppingmall.domain.user.repository.AddressRepository;
+import ureca.shoppingmall.domain.user.repository.PhoneRepository;
+import ureca.shoppingmall.domain.user.repository.RoleRepository;
+import ureca.shoppingmall.domain.user.repository.UserRepository;
+import ureca.shoppingmall.domain.user.service.UserService;
 
 import java.util.*;
 import java.util.stream.Collectors;

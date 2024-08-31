@@ -1,4 +1,4 @@
-package ureca.shoppingmall.dto;
+package ureca.shoppingmall.domain.user.dto;
 
 import lombok.Data;
 

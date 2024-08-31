@@ -1,4 +1,4 @@
-package ureca.shoppingmall.repository;
+package ureca.shoppingmall.domain.user.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import ureca.shoppingmall.domain.user.Address;

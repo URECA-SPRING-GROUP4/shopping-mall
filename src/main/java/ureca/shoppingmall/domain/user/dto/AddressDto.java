@@ -1,4 +1,4 @@
-package ureca.shoppingmall.dto;
+package ureca.shoppingmall.domain.user.dto;
 
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;

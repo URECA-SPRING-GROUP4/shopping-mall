@@ -7,10 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import ureca.shoppingmall.domain.user.Address;
 import ureca.shoppingmall.domain.user.Phone;
 import ureca.shoppingmall.domain.user.User;
-import ureca.shoppingmall.dto.AddressDto;
-import ureca.shoppingmall.dto.UserDto;
-import ureca.shoppingmall.dto.UserResultDto;
-import ureca.shoppingmall.service.UserService;
+import ureca.shoppingmall.domain.user.dto.UserDto;
+import ureca.shoppingmall.domain.user.dto.UserResultDto;
+import ureca.shoppingmall.domain.user.service.UserService;
 
 @Controller
 @ResponseBody
