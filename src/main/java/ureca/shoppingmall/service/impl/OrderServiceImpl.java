@@ -10,6 +10,7 @@ import ureca.shoppingmall.domain.order.OrderItem;
 import ureca.shoppingmall.domain.user.User;
 import ureca.shoppingmall.dto.OrderDto;
 import ureca.shoppingmall.dto.OrderItemDto;
+import ureca.shoppingmall.exception.OrderNotFoundException;
 import ureca.shoppingmall.repository.ItemRepository;
 import ureca.shoppingmall.repository.OrderRepository;
 import ureca.shoppingmall.repository.UserRepository;
@@ -18,9 +19,11 @@ import ureca.shoppingmall.service.OrderService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class OrderServiceImpl implements OrderService {
 
     private final UserRepository userRepository;
@@ -36,7 +39,6 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new RuntimeException("no item"));
 
         OrderItem orderItem = OrderItem.createOrderItem(item, count);
-
         Order order = Order.createOrder(user, orderItem);
 
         Order findOrder = orderRepository.save(order);
@@ -44,40 +46,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Optional<OrderDto> findOrderById(long orderId) {
+    public OrderDto findOrderById(long orderId) {
         return orderRepository.findById(orderId)
-                .map(this::createOrderDto);
+                .map(OrderDto::new)
+                .orElseThrow(() -> new OrderNotFoundException("Order not found with id: " + orderId));
     }
 
     @Override
     public List<OrderDto> findOrdersByUser(User user) {
         List<Order> orders = orderRepository.findByUser(user);
-        List<OrderDto> orderDtos = new ArrayList<>();
-
-        for (Order order : orders) {
-            orderDtos.add(createOrderDto(order));
-        }
-
-        return orderDtos;
-    }
-
-    private OrderDto createOrderDto(Order order) {
-        OrderDto orderDto = new OrderDto();
-        orderDto.setId(order.getId());
-        orderDto.setUserId(order.getUser().getId());
-        orderDto.setOrderDate(order.getOrderDate());
-        orderDto.setStatus(order.getStatus());
-
-        List<OrderItemDto> orderItemDtos = new ArrayList<>();
-        for (OrderItem orderItem : order.getOrderItems()) {
-            OrderItemDto orderItemDto = new OrderItemDto();
-            orderItemDto.setId(orderItem.getId());
-            orderItemDto.setItemId(orderItem.getItem().getId());
-            orderItemDto.setQuantity(orderItem.getQuantity());
-            orderItemDtos.add(orderItemDto);
-        }
-        orderDto.setOrderItems(orderItemDtos);
-
-        return orderDto;
+        return orders.stream()
+                .map(OrderDto::new)
+                .collect(Collectors.toList());
     }
 }

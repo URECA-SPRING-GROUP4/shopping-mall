@@ -12,7 +12,7 @@ public interface OrderService{
     OrderDto createOrder(Long userId, Long itemId, int count);
 
     // 주문 조회
-    Optional<OrderDto> findOrderById(long orderId);
+    OrderDto findOrderById(long orderId);
 
     // 사용자의 모든 주문 조회
     List<OrderDto> findOrdersByUser(User user);
