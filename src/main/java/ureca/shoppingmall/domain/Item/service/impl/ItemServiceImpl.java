@@ -1,12 +1,12 @@
-package ureca.shoppingmall.service.impl;
+package ureca.shoppingmall.domain.Item.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ureca.shoppingmall.common.mapper.ItemMapper;
 import ureca.shoppingmall.domain.Item.Item;
-import ureca.shoppingmall.dto.ItemDto;
-import ureca.shoppingmall.repository.ItemRepository;
-import ureca.shoppingmall.service.ItemService;
+import ureca.shoppingmall.domain.Item.dto.ItemDto;
+import ureca.shoppingmall.domain.Item.repository.ItemRepository;
+import ureca.shoppingmall.domain.Item.service.ItemService;
 
 import java.util.ArrayList;
 import java.util.List;

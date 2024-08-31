@@ -2,7 +2,7 @@ package ureca.shoppingmall.common.mapper;
 
 
 import ureca.shoppingmall.domain.Item.Item;
-import ureca.shoppingmall.dto.ItemDto;
+import ureca.shoppingmall.domain.Item.dto.ItemDto;
 
 public class ItemMapper {
 

@@ -1,8 +1,7 @@
-package ureca.shoppingmall.dto;
+package ureca.shoppingmall.domain.Item.dto;
 
 
 import lombok.Data;
-import ureca.shoppingmall.domain.Item.Item;
 
 @Data
 public class ItemDto {

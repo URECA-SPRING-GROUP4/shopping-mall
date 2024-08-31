@@ -1,7 +1,6 @@
-package ureca.shoppingmall.service;
+package ureca.shoppingmall.domain.Item.service;
 
-import ureca.shoppingmall.domain.Item.Item;
-import ureca.shoppingmall.dto.ItemDto;
+import ureca.shoppingmall.domain.Item.dto.ItemDto;
 
 import java.util.List;
 import java.util.Optional;

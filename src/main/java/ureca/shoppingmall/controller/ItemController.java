@@ -3,8 +3,8 @@ package ureca.shoppingmall.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ureca.shoppingmall.dto.ItemDto;
-import ureca.shoppingmall.service.ItemService;
+import ureca.shoppingmall.domain.Item.dto.ItemDto;
+import ureca.shoppingmall.domain.Item.service.ItemService;
 
 @Controller
 @RequestMapping("/items")

@@ -1,10 +1,10 @@
-package ureca.shoppingmall.repository;
+package ureca.shoppingmall.domain.Item.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import ureca.shoppingmall.domain.Item.Item;
-import ureca.shoppingmall.dto.ItemDto;
+import ureca.shoppingmall.domain.Item.dto.ItemDto;
 
 import java.util.List;
 
