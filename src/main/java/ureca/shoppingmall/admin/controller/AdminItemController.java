@@ -3,7 +3,7 @@ package ureca.shoppingmall.admin.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ureca.shoppingmall.admin.service.ItemService;
+import ureca.shoppingmall.admin.service.AdminItemService;
 import ureca.shoppingmall.domain.Item.Item;
 import ureca.shoppingmall.domain.Item.dto.ItemDto;
 
@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/item")
 public class AdminItemController {
 
-    private final ItemService itemService;
+    private final AdminItemService itemService;
 
     @GetMapping("/list")
     public List<ItemDto> itemList() {

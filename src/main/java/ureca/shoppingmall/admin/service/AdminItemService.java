@@ -1,11 +1,11 @@
 package ureca.shoppingmall.admin.service;
 
 import ureca.shoppingmall.domain.Item.Item;
-import ureca.shoppingmall.dto.ItemDto;
+import ureca.shoppingmall.domain.Item.dto.ItemDto;
 
 import java.util.List;
 
-public interface ItemService {
+public interface AdminItemService {
 
     List<ItemDto> itemList();
 
