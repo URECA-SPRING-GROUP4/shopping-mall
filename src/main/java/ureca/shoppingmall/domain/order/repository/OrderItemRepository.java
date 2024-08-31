@@ -1,4 +1,4 @@
-package ureca.shoppingmall.repository;
+package ureca.shoppingmall.domain.order.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import ureca.shoppingmall.domain.order.OrderItem;

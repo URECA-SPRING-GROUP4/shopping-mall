@@ -1,4 +1,4 @@
-package ureca.shoppingmall.dto;
+package ureca.shoppingmall.domain.order.dto;
 
 import lombok.Data;
 import ureca.shoppingmall.domain.order.OrderItem;

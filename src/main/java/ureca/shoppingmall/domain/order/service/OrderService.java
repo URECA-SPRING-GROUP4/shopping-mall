@@ -1,10 +1,9 @@
-package ureca.shoppingmall.service;
+package ureca.shoppingmall.domain.order.service;
 
 import ureca.shoppingmall.domain.user.User;
-import ureca.shoppingmall.dto.OrderDto;
+import ureca.shoppingmall.domain.order.dto.OrderDto;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface OrderService{
 

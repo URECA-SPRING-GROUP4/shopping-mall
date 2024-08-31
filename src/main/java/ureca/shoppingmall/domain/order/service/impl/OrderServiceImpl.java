@@ -1,24 +1,20 @@
-package ureca.shoppingmall.service.impl;
+package ureca.shoppingmall.domain.order.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ureca.shoppingmall.domain.Item.Item;
 import ureca.shoppingmall.domain.order.Order;
 import ureca.shoppingmall.domain.order.OrderItem;
 import ureca.shoppingmall.domain.user.User;
-import ureca.shoppingmall.dto.OrderDto;
-import ureca.shoppingmall.dto.OrderItemDto;
+import ureca.shoppingmall.domain.order.dto.OrderDto;
 import ureca.shoppingmall.exception.OrderNotFoundException;
-import ureca.shoppingmall.repository.ItemRepository;
-import ureca.shoppingmall.repository.OrderRepository;
-import ureca.shoppingmall.repository.UserRepository;
-import ureca.shoppingmall.service.OrderService;
+import ureca.shoppingmall.domain.Item.repository.ItemRepository;
+import ureca.shoppingmall.domain.order.repository.OrderRepository;
+import ureca.shoppingmall.domain.user.repository.UserRepository;
+import ureca.shoppingmall.domain.order.service.OrderService;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
