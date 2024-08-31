@@ -2,10 +2,10 @@ package ureca.shoppingmall.admin.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ureca.shoppingmall.admin.dto.ItemDto;
 import ureca.shoppingmall.admin.repository.AdminItemRepository;
 import ureca.shoppingmall.admin.service.ItemService;
 import ureca.shoppingmall.domain.Item.Item;
+import ureca.shoppingmall.dto.ItemDto;
 
 import java.util.ArrayList;
 import java.util.List;

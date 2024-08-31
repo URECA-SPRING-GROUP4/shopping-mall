@@ -1,7 +1,7 @@
 package ureca.shoppingmall.admin.service;
 
-import ureca.shoppingmall.admin.dto.ItemDto;
 import ureca.shoppingmall.domain.Item.Item;
+import ureca.shoppingmall.dto.ItemDto;
 
 import java.util.List;
 
