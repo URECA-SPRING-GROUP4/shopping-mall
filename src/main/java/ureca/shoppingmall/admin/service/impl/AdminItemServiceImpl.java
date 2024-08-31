@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ureca.shoppingmall.admin.repository.AdminItemRepository;
 import ureca.shoppingmall.admin.service.ItemService;
 import ureca.shoppingmall.domain.Item.Item;
-import ureca.shoppingmall.dto.ItemDto;
+import ureca.shoppingmall.domain.Item.dto.ItemDto;
 
 import java.util.ArrayList;
 import java.util.List;
